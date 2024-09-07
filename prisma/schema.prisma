@@ -1,0 +1,58 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  password String
+  age      Int
+  role     UserRole
+  tickets  Ticket[]
+}
+
+model Movie {
+  id             Int       @id @default(autoincrement())
+  name           String
+  ageRestriction Int
+  sessions       Session[]
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  movieId   Int
+  movie     Movie    @relation(fields: [movieId], references: [id])
+  date      DateTime
+  timeSlot  TimeSlot
+  roomNumber Int
+  tickets    Ticket[]
+}
+
+model Ticket {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  sessionId Int
+  session   Session @relation(fields: [sessionId], references: [id])
+  watched   Boolean @default(false)
+}
+
+enum UserRole {
+  MANAGER
+  CUSTOMER
+}
+
+enum TimeSlot {
+  SLOT_10_12
+  SLOT_12_14
+  SLOT_14_16
+  SLOT_16_18
+  SLOT_18_20
+  SLOT_20_22
+  SLOT_22_00
+}
