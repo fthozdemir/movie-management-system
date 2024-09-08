@@ -5,10 +5,12 @@ import { ApiBody, ApiTags } from "@nestjs/swagger";
 import ApiBaseResponses from "@/decorators/api-base-response.decorator";
 import { LoginDto, RegisterDto, UserBaseDto } from "../dto";
 import Serialize from "@/decorators/serialize.decorator";
+import { SkipAuth } from "../guards";
 
 @ApiTags("auth")
 @ApiBaseResponses()
 @Controller("auth")
+@SkipAuth()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

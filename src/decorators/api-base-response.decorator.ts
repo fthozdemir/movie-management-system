@@ -1,3 +1,9 @@
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  UNAUTHORIZED_RESOURCE,
+} from "@/constants/errors.constants";
 import { applyDecorators, HttpStatus } from "@nestjs/common";
 import {
   ApiBadRequestResponse,
@@ -14,8 +20,8 @@ const ApiBaseResponses = () => {
         example: {
           success: false,
           error: {
-            code: 401000,
-            message: "Unauthorized resource",
+            code: UNAUTHORIZED_RESOURCE.code,
+            message: UNAUTHORIZED_RESOURCE.message,
             details: "The resource you are trying to access is unauthorized.",
           },
         },
@@ -28,8 +34,8 @@ const ApiBaseResponses = () => {
         example: {
           success: false,
           error: {
-            code: 400000,
-            message: "Bad request",
+            code: BAD_REQUEST.code,
+            message: BAD_REQUEST.message,
             details: "The request you are trying to make is invalid.",
           },
         },
@@ -42,8 +48,8 @@ const ApiBaseResponses = () => {
         example: {
           success: false,
           error: {
-            code: 500000,
-            message: "Internal server error",
+            code: INTERNAL_SERVER_ERROR.code,
+            message: INTERNAL_SERVER_ERROR.message,
             details: "Something went wrong.",
           },
         },
@@ -56,8 +62,8 @@ const ApiBaseResponses = () => {
         example: {
           success: false,
           error: {
-            code: 404000,
-            message: "Not found",
+            code: NOT_FOUND.code,
+            message: NOT_FOUND.message,
             details: "The resource you are trying to access does not exist.",
           },
         },

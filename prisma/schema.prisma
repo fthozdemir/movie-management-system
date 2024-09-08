@@ -31,6 +31,9 @@ model Session {
   timeSlot  TimeSlot
   roomNumber Int
   tickets    Ticket[]
+
+  @@index([date, timeSlot, roomNumber])
+  @@unique([date, timeSlot, roomNumber])
 }
 
 model Ticket {
