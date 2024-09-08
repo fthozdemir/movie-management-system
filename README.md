@@ -6,6 +6,7 @@
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
     - [Prerequisites](#prerequisites)
+    - [Docker](#docker)
     - [Steps](#steps)
   - [Scripts](#scripts)
     - [Build](#build)
@@ -24,10 +25,12 @@
 ### Prerequisites
 
 - Node.js (v18.12.x or higher)
-- MySQL
+- MySQL (tested v10.4.27)
 - Prisma ORM
 - NestJS CLI
 - pnpm (v9.4.0 or higher)
+
+### Docker
 
 ### Steps
 
