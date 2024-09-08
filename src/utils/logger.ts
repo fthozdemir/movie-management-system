@@ -2,7 +2,7 @@
 import { LoggerService, Injectable } from "@nestjs/common";
 
 @Injectable()
-export class Logger implements LoggerService {
+export class CustomLogger implements LoggerService {
   /**
    * Write a 'log' level log.
    */

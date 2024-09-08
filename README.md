@@ -1,85 +1,204 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Movie Management System
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Table of Contents
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [Movie Management System](#movie-management-system)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+    - [Docker](#docker)
+    - [Steps](#steps)
+  - [Scripts](#scripts)
+    - [Build](#build)
+    - [Start](#start)
+    - [Docs](#docs)
+    - [Code Quality](#code-quality)
+  - [Database Commands](#database-commands)
+  - [Testing](#testing)
+  - [Features](#features)
+  - [Decisions](#decisions)
+  - [Challenges](#challenges)
+  - [Nice If It Had Been Done](#nice-if-it-had-been-done)
 
-## Description
+## Installation
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Prerequisites
 
-## Project setup
+- Node.js (v18.12.x or higher)
+- MySQL (tested v10.4.27)
+- Prisma ORM
+- NestJS CLI
+- pnpm (v9.4.0 or higher)
 
-```bash
-$ pnpm install
-```
+### Docker
 
-## Compile and run the project
+### Steps
 
-```bash
-# development
-$ pnpm run start
+1. Install the dependencies:
 
-# watch mode
-$ pnpm run start:dev
+   ```bash
+   pnpm install
+   ```
 
-# production mode
-$ pnpm run start:prod
-```
+2. Set up environment variables by creating a `.env` file in the root directory:
 
-## Run tests
+   ```bash
+   cp .env.example .env
+   ```
 
-```bash
-# unit tests
-$ pnpm run test
+   Update the `.env` file with your database credentials and other necessary configurations.
 
-# e2e tests
-$ pnpm run test:e2e
+3. Set up test environment variables by creating a `.env.test` file in the root directory:
 
-# test coverage
-$ pnpm run test:cov
-```
+   ```bash
+   cp .env.example .env.test
+   ```
 
-## Resources
+   Update the `.env` file with your database credentials and other necessary configurations.**Important:Test DATABASE_URL must be different than development or production**
 
-Check out a few resources that may come in handy when working with NestJS:
+   Test database will be created automaticly during tests, no need to be generate manually
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+4. Generate Prisma Client:
 
-## Support
+   ```bash
+   pnpm db:generate
+   ```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+5. Push your Prisma schema to the database:
 
-## Stay in touch
+   ```bash
+   pnpm db:push
+   ```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Scripts
 
-## License
+Here is a list of available commands for development and production.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Build
+
+- **Build the project**:
+
+  ```bash
+  pnpm build
+  ```
+
+  This will compile the TypeScript code into JavaScript.
+
+### Start
+
+- **Start the server**:
+
+  ```bash
+  pnpm start
+  ```
+
+  This will start the NestJS server.
+
+- **Start in development mode** (with live-reload):
+
+  ```bash
+  pnpm run dev
+  ```
+
+- **Start in production mode**:
+
+  ```bash
+  pnpm run start:prod
+  ```
+
+### Docs
+
+while application is running go [http://localhost:3000/docs](http://localhost:3000/docs).
+
+### Code Quality
+
+- **Lint the project** (and automatically fix errors):
+
+  ```bash
+  pnpm lint
+  ```
+
+## Database Commands
+
+- **Generate Prisma Client**:
+
+  ```bash
+  pnpm db:generate
+  ```
+
+- **Push schema changes to the database**:
+
+  ```bash
+  pnpm db:push
+  ```
+
+## Testing
+
+The project is configured with Jest for unit and end-to-end testing.
+
+- **Run all unit tests**:
+
+  ```bash
+  pnpm test
+  ```
+
+- **Run end-to-end tests**:
+
+  ```bash
+  pnpm test:e2e
+  ```
+
+## Features
+
+- **General**
+  - Customizable error filters
+  - Custom logger
+  - env paramaters validation
+  - Separate Prisma database process logger
+- **Authantication**
+  - Body object validation
+  - Unique username check
+  - JWT tokens (accessToken validation JWT, as an improvement, the token could be taken from the .env file. For now, it is hardcoded for 1 hour)
+  - Role and auth guards
+  - Used Prisma middleware to remove the password
+- **Movie Sessions**
+  - Sorting, ordering, and pagination in listing all movies
+  - Bulk session adding to a movie.
+  - If a movie is scheduled at a specific time, timeSlot, and room, no other movie can be scheduled for that session
+  - Except for listing movies, all features can only be used by MANAGER
+  - Proper validators are used for the body when creating a session
+  - Deleting a movie also deletes its related sessions and the tickets purchased for those sessions.
+  - The room numbers for a session can range from 0 to maxRoomNumber, which is assigned to a variable.
+- **Ticketing**
+  - Customers can only view and manage tickets related to themselves, and watch the movies they purchased tickets for.
+  - Customers can cancel their tickets if they haven’t watched the movie. The session for that ticket becomes available again.
+  - Managers can cancel any ticket
+  - Only one ticket can be purchased for a single session.
+  - Age restrictions are only checked when buying a ticket. Purchased tickets can still be watched regardless of the restriction.
+- **Testing**
+  - testler için 2 ayrı config mevcuttur. ayrı ayrı test kkomutları çağırılır
+
+## Decisions
+
+- I wanted to store all necessary user information (except the password) in the JWT token. This way, there's no need to query the database for the user on each request.
+
+- All actions except Register and Login require the user to be logged in.
+- A movie can be created without an assigned session. After a movie is created, bulk sessions can be added to it. Deleting or modifying sessions is done one by one to prevent user errors, which is why this method was preferred.
+- In the database, TimeSlot and UserType are stored as enums. I'm aware this is not the best practice, and it would be better to store them as separate tables. However, enums were used to accelerate the implementation for this case.
+- To keep the structure simple, each ticket has an isWatched flag. The watch history is handled by checking this flag. For this reason, a separate history table was not created.
+- Instead of deleting a movie, marking it as inactive could have been another solution. This way, users wouldn't lose their watch history.
+- There are few comments in the code. Effort was made to ensure that the code explains itself. Clean code principles were followed as much as possible.
+
+## Challenges
+
+- Due to time constraints, I couldn't implement the interface and inheritance structure I had in mind. NestJS pushed me more towards working directly with classes.
+- Bulk adding and deleting movies could have been done in the same way as bulk session adding. After showing that this could be done, I couldn't fully implement it for movies due to time limitations.
+- Tests could have been written better.
+
+## Nice If It Had Been Done
+
+- Password-protected access for Swagger
+- Better permission control with useAbility
+- If the viewer age restriction for a movie is increased, tickets for users who do not meet the age requirement could have been canceled
+- Prevent creating sessions for past dates
+- When a user registers, a token could have been returned immediately, so they wouldn’t have to log in again.
