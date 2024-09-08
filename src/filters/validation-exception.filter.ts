@@ -13,7 +13,7 @@ export class ValidationExceptionFilter implements ExceptionFilter {
     const context = host.switchToHttp();
     const response = context.getResponse();
 
-    const { code, message } = VALIDATION_ERROR;
+    const [code, message] = VALIDATION_ERROR.split(":");
 
     return response.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
       success: false,

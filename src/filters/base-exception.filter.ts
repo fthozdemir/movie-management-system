@@ -1,4 +1,3 @@
-import { IError } from "@/constants/errors.constants";
 import {
   ExceptionFilter,
   ArgumentsHost,
@@ -7,11 +6,11 @@ import {
 } from "@nestjs/common";
 
 export default class BaseExceptionFilter implements ExceptionFilter {
-  private readonly defaultMessage: IError;
+  private readonly defaultMessage: string;
 
   private readonly defaultStatus: HttpStatus;
 
-  constructor(defaultMessage: IError, defaultStatus: HttpStatus) {
+  constructor(defaultMessage: string, defaultStatus: HttpStatus) {
     this.defaultMessage = defaultMessage;
     this.defaultStatus = defaultStatus;
   }
@@ -25,7 +24,7 @@ export default class BaseExceptionFilter implements ExceptionFilter {
       : this.defaultStatus;
     const errorMessage = exception?.response?.message || this.defaultMessage;
 
-    let { code, message } = this.defaultMessage;
+    let [code, message] = this.defaultMessage.split(":");
     const splittedError = errorMessage.split(":");
 
     if (splittedError.length === 2) {
@@ -39,7 +38,7 @@ export default class BaseExceptionFilter implements ExceptionFilter {
     const exceptionResponse = {
       success: false,
       error: {
-        code: code,
+        code: parseInt(code, 10),
         message: message?.trim(),
         details: exception?.response?.error,
       },

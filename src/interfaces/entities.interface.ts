@@ -23,7 +23,7 @@ export interface IMovie {
 export interface ISession {
   id: number;
   movieId: IMovie["id"];
-  movie: IMovie;
+  movie?: IMovie;
   date: Date;
   timeSlot: TimeSlot;
   roomNumber: number;

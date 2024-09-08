@@ -19,8 +19,8 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const exceptionResponse = {
       success: false,
       error: {
-        code: NOT_FOUND.code,
-        message: NOT_FOUND.message,
+        code: parseInt(NOT_FOUND.split(":")[0], 10),
+        message: NOT_FOUND.split(":")[1].trim(),
         details: exception.getResponse(),
       },
     };

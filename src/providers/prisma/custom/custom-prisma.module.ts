@@ -5,7 +5,7 @@ import {
   CustomPrismaModuleOptions,
   PrismaClientLike,
   CustomPrismaService,
-} from "@/providers/prisma";
+} from "@providers/prisma";
 import { CUSTOM_PRISMA_CLIENT } from "./custom-prisma.constants";
 
 @Module({})

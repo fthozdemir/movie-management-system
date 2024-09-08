@@ -20,8 +20,8 @@ const ApiBaseResponses = () => {
         example: {
           success: false,
           error: {
-            code: UNAUTHORIZED_RESOURCE.code,
-            message: UNAUTHORIZED_RESOURCE.message,
+            code: UNAUTHORIZED_RESOURCE.split(":")[0],
+            message: UNAUTHORIZED_RESOURCE.split(":")[1],
             details: "The resource you are trying to access is unauthorized.",
           },
         },
@@ -34,8 +34,8 @@ const ApiBaseResponses = () => {
         example: {
           success: false,
           error: {
-            code: BAD_REQUEST.code,
-            message: BAD_REQUEST.message,
+            code: BAD_REQUEST.split(":")[1],
+            message: BAD_REQUEST.split(":")[0],
             details: "The request you are trying to make is invalid.",
           },
         },
@@ -48,8 +48,8 @@ const ApiBaseResponses = () => {
         example: {
           success: false,
           error: {
-            code: INTERNAL_SERVER_ERROR.code,
-            message: INTERNAL_SERVER_ERROR.message,
+            code: INTERNAL_SERVER_ERROR.split(":")[0],
+            message: INTERNAL_SERVER_ERROR.split(":")[1],
             details: "Something went wrong.",
           },
         },
@@ -62,8 +62,8 @@ const ApiBaseResponses = () => {
         example: {
           success: false,
           error: {
-            code: NOT_FOUND.code,
-            message: NOT_FOUND.message,
+            code: NOT_FOUND.split(":")[0],
+            message: NOT_FOUND.split(":")[1],
             details: "The resource you are trying to access does not exist.",
           },
         },

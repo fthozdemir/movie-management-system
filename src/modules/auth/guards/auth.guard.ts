@@ -9,6 +9,7 @@ import { Request } from "express";
 import { ConfigService } from "@nestjs/config";
 import { Reflector } from "@nestjs/core";
 import { IS_SKIP_AUTH_KEY } from "@modules/auth/guards";
+import { IUser } from "@/interfaces";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -45,9 +46,9 @@ export class AuthGuard implements CanActivate {
     try {
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
-      request.user = await this.jwtService.verifyAsync(token, {
+      request.user = (await this.jwtService.verifyAsync(token, {
         secret: this.configService.get<string>("jwt.accessToken"),
-      });
+      })) as IUser;
       request.user._meta = {
         accessToken: token,
       };

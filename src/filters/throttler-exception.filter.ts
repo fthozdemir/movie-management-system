@@ -14,12 +14,12 @@ export class ThrottlerExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse();
 
-    const { code, message } = RATE_LIMIT_EXCEEDED;
+    const [code, message] = RATE_LIMIT_EXCEEDED.split(":");
 
     const exceptionResponse = {
       success: false,
       error: {
-        code: code,
+        code: parseInt(code, 10),
         message: message?.trim(),
         details: exception?.getResponse(),
       },

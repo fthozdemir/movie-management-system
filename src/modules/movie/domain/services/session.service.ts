@@ -1,16 +1,11 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { MovieRepository } from "@modules/movie/infrastructure/repositories/movie.repository";
 import { TimeSlot } from "@prisma/client";
 import { ISession } from "@/interfaces";
 import { maxRoomNumber } from "@/constants/session.constants";
-import { SessionRepository } from "@modules/movie/infrastructure/repositories/session.repository";
-
+import { SessionRepository } from "@/modules/movie/infrastructure/repositories/session.repository";
 @Injectable()
 export class SessionService {
-  constructor(
-    private readonly movieRepository: MovieRepository,
-    private readonly sessionRepository: SessionRepository,
-  ) {}
+  constructor(private readonly sessionRepository: SessionRepository) {}
 
   async addSession(
     movieId: number,
@@ -21,12 +16,12 @@ export class SessionService {
     if (roomNumber < 0 || roomNumber > maxRoomNumber) {
       throw new BadRequestException("Invalid room number");
     }
-    return this.sessionRepository.addSession(
+    return this.sessionRepository.create({
       movieId,
       date,
       timeSlot,
       roomNumber,
-    );
+    });
   }
 
   async addBulkSessions(

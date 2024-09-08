@@ -26,7 +26,7 @@ model Movie {
 model Session {
   id        Int      @id @default(autoincrement())
   movieId   Int
-  movie     Movie    @relation(fields: [movieId], references: [id])
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
   date      DateTime
   timeSlot  TimeSlot
   roomNumber Int
@@ -41,7 +41,7 @@ model Ticket {
   userId    Int
   user      User    @relation(fields: [userId], references: [id])
   sessionId Int
-  session   Session @relation(fields: [sessionId], references: [id])
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   watched   Boolean @default(false)
 }
 

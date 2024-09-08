@@ -10,7 +10,6 @@ export enum EConfigKey {
   App = "APP",
   Db = "DB",
   Swagger = "SW",
-  Jwt = "JWT",
 }
 
 export enum EEnvironment {
@@ -18,5 +17,5 @@ export enum EEnvironment {
   Development = "development",
   Staging = "staging",
   Production = "production",
-  Testing = "testing",
+  Testing = "test",
 }

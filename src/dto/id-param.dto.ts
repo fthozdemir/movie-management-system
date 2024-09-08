@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsNumberString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
-export class MovieParamDto {
+export class IdParamDto {
   @ApiProperty({ type: Number })
   @IsNumberString()
   @IsNotEmpty()
-  readonly id!: number;
+  readonly id!: string;
 }

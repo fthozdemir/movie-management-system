@@ -91,7 +91,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
       return super.catch(exception, host);
     }
 
-    const code = PRISMA_API_ERROR.code;
+    const [code] = PRISMA_API_ERROR.split(":");
 
     super.catch(
       new HttpException(
@@ -117,7 +117,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
 
     const [prismaCode, msg] = message.split(":");
 
-    const code = PRISMA_API_ERROR.code;
+    const code = prismaCode;
 
     super.catch(
       new HttpException(

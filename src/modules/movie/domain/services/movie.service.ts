@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { MovieRepository } from "@modules/movie/infrastructure/repositories/movie.repository";
 import { IMovie } from "@/interfaces";
+import { MovieRepository } from "@modules/movie/infrastructure/repositories/movie.repository";
 
 @Injectable()
 export class MovieService {
@@ -21,7 +21,12 @@ export class MovieService {
     return this.movieRepository.delete(id);
   }
 
-  async listMovies() {
-    return this.movieRepository.listMovies();
+  async listMovies(params: {
+    limit?: number;
+    page?: number;
+    sortBy?: keyof IMovie;
+    order?: "asc" | "desc";
+  }): Promise<IMovie[]> {
+    return this.movieRepository.listMovies(params);
   }
 }

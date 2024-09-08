@@ -45,14 +45,14 @@ export class AccessExceptionFilter extends BaseExceptionFilter {
         ? (exceptionResponse as ExceptionResponse)
         : null;
 
-    const serverErrorCode = UNAUTHORIZED_RESOURCE.code;
+    const [serverErrorCode] = UNAUTHORIZED_RESOURCE.split(":");
 
     super.catch(
       new HttpException(
         {
           success: false,
           error: {
-            code: serverErrorCode,
+            code: parseInt(serverErrorCode, 10),
             message: exception.message,
             details: details?.error,
           },
@@ -77,14 +77,14 @@ export class AccessExceptionFilter extends BaseExceptionFilter {
         ? (exceptionResponse as ExceptionResponse)
         : null;
 
-    const serverErrorCode = FORBIDDEN_RESOURCE.code;
+    const [serverErrorCode] = FORBIDDEN_RESOURCE.split(":");
 
     super.catch(
       new HttpException(
         {
           success: false,
           error: {
-            code: serverErrorCode,
+            code: parseInt(serverErrorCode, 10),
             message: exception.message,
             details: details?.error,
           },

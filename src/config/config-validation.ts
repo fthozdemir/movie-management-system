@@ -24,6 +24,11 @@ class EnvironmentVariables {
   @IsString()
   @MinLength(1)
   DATABASE_URL: string;
+
+  @IsDefined()
+  @IsString()
+  @MinLength(2)
+  JWT_SECRET: string;
 }
 
 export function validateConfig(configuration: Record<string, unknown>) {

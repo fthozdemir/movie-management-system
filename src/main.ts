@@ -1,10 +1,11 @@
 import { NestFactory, HttpAdapterHost } from "@nestjs/core";
+
 import { AppModule } from "@/app";
 import { CustomLogger } from "@/utils/logger";
 import { ConfigService } from "@nestjs/config";
 import { ValidationPipe, Logger } from "@nestjs/common";
 import { AllExceptionsFilter } from "@/filters/all-exception.filter";
-import { PrismaClientExceptionFilter } from "@/providers/prisma/prisma-client-exception.filter";
+import { PrismaClientExceptionFilter } from "@providers/prisma/prisma-client-exception.filter";
 import { ValidationExceptionFilter } from "@/filters/validation-exception.filter";
 import validationExceptionFactory from "@/filters/validation-exception-factory";
 import { BadRequestExceptionFilter } from "@/filters/bad-request-exception.filter";
@@ -13,6 +14,8 @@ import { ThrottlerExceptionsFilter } from "@/filters/throttler-exception.filter"
 import { AccessExceptionFilter } from "@/filters/access-exception.filter";
 import { NotFoundExceptionFilter } from "@/filters/not-found-exception.filter";
 import { EConfigKey, IAppConfig } from "@/interfaces";
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from "@nestjs/swagger";
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new CustomLogger(),
@@ -21,8 +24,6 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
   const appConfig: IAppConfig = configService.get(EConfigKey.App);
-  //const swaggerConfig = configService.get("swagger");
-
   {
     /**
      * ValidationPipe options
@@ -61,25 +62,12 @@ async function bootstrap() {
     );
   }
 
-  //TODO:set global prefix for all routes except GET
-
-  //TODO: add versioning
-  //TODO: swagger config
-  /*
   {
     // Setup Swagger API documentation
     // https://docs.nestjs.com/openapi/introduction
     // https://medium.com/@a16n.dev/password-protecting-swagger-documentation-in-nestjs-53a5edf60fa0
     //
-    app.use(
-      ["/docs"],
-      basicAuth({
-        challenge: true,
-        users: {
-          admin: swaggerConfig.password,
-        },
-      }),
-    );
+    // app.use(["/docs"]);
 
     const options: Omit<OpenAPIObject, "paths"> = new DocumentBuilder()
       .setTitle("Api v1")
@@ -97,7 +85,7 @@ async function bootstrap() {
       },
     });
   }
-    */
+
   await app.listen(appConfig.port);
 
   return appConfig;

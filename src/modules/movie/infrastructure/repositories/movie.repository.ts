@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "@/providers/prisma";
+import { PrismaService } from "@providers/prisma";
 import { IMovie, IMovieRepository } from "@/interfaces";
 @Injectable()
 export class MovieRepository implements IMovieRepository {
@@ -34,13 +34,26 @@ export class MovieRepository implements IMovieRepository {
     });
   }
 
-  async listMovies(): Promise<IMovie[]> {
+  async listMovies(params: {
+    limit?: number;
+    page?: number;
+    sortBy?: keyof IMovie;
+    order?: "asc" | "desc";
+  }): Promise<IMovie[]> {
+    const { limit, page, sortBy, order } = params;
+    const options: any = {};
+    options.include = { sessions: { include: { movie: true } } };
+    if (limit) {
+      options.take = limit;
+    }
+    if (page) {
+      options.skip = (page - 1) * (limit || 1);
+    }
+    if (sortBy) {
+      options.orderBy = { [sortBy]: order || "asc" };
+    }
     return this.prisma.movie.findMany({
-      include: {
-        sessions: {
-          include: { movie: true },
-        },
-      },
+      ...options,
     });
   }
   async findAll(): Promise<IMovie[]> {

@@ -17,18 +17,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message =
-      exception?.response?.message || INTERNAL_SERVER_ERROR.message;
-    const code = INTERNAL_SERVER_ERROR.code;
+    const errorMessage = exception?.response?.message || INTERNAL_SERVER_ERROR;
+
+    const [code, message] = errorMessage.split(":");
 
     if (!message) {
-      const serverErrorCode = INTERNAL_SERVER_ERROR.code;
+      const [serverErrorCode] = INTERNAL_SERVER_ERROR.split(":");
 
       const exceptionResponse = {
         success: false,
         error: {
-          code: serverErrorCode,
-          message: INTERNAL_SERVER_ERROR,
+          code: parseInt(serverErrorCode, 10),
+          message: errorMessage?.trim() || INTERNAL_SERVER_ERROR,
           details: exception?.response?.error,
         },
       };
@@ -42,7 +42,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const exceptionResponse = {
       success: false,
       error: {
-        code: code,
+        code: parseInt(code, 10),
         message: message?.trim(),
         details: exception?.response?.error,
       },

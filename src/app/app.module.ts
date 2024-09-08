@@ -10,9 +10,10 @@ import {
   loggingMiddleware,
   createUserMiddleware,
   removePasswordMiddleware,
-} from "@/providers/prisma";
+} from "@providers/prisma";
 import { JwtModule } from "@nestjs/jwt";
 import { MovieModule } from "@modules/movie/movie.module";
+import { TicketModule } from "@/modules/ticket/ticket.module";
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { MovieModule } from "@modules/movie/movie.module";
     ConfigsModule,
     AuthModule,
     MovieModule,
+    TicketModule,
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {

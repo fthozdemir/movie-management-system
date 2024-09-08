@@ -34,14 +34,18 @@ export class AuthService {
   async login(username: string, password: string) {
     const user = await this.userRepository.findByUsername(username, true);
     if (user && (await bcrypt.compare(password, user.password))) {
-      console.log("user", user);
       return this.generateToken(user);
     }
     throw new NotFoundException(NOT_FOUND);
   }
 
   private generateToken(user: IUser) {
-    const payload = { username: user.username, sub: user.id, role: user.role };
+    const payload = {
+      username: user.username,
+      id: user.id,
+      role: user.role,
+      age: user.age,
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };

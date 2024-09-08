@@ -6,15 +6,17 @@ import {
   Param,
   Delete,
   Patch,
+  Query,
 } from "@nestjs/common";
 import { MovieService } from "../domain/services/movie.service";
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
 import ApiBaseResponses from "@/decorators/api-base-response.decorator";
-import { CreateMovieDto, MovieParamDto, UpdateMovieDto } from "../dto";
+import { CreateMovieDto, UpdateMovieDto } from "../dto";
+import { IdParamDto } from "@/dto/id-param.dto";
 import { BulkSessionDto, SessionDto } from "../dto/session.dto";
 import { SessionService } from "../domain/services/session.service";
 import { Roles } from "@modules/auth/decorators/roles.decorator";
-import { UserRole } from "@/interfaces";
+import { IMovie, UserRole } from "@/interfaces";
 @ApiTags("movie")
 @ApiBearerAuth()
 @ApiBaseResponses()
@@ -27,17 +29,17 @@ export class MovieController {
 
   @Roles(UserRole.MANAGER)
   @ApiBody({ type: CreateMovieDto })
-  @Post()
+  @Post("add")
   async createMovie(@Body() { name, ageRestriction }: CreateMovieDto) {
     return this.movieService.createMovie(name, ageRestriction);
   }
 
   @Roles(UserRole.MANAGER)
   @ApiBody({ type: UpdateMovieDto })
-  @ApiParam({ type: MovieParamDto, name: "id" })
-  @Patch(":id")
+  @ApiParam({ type: IdParamDto, name: "id" })
+  @Patch("update/:id")
   async updateMovie(
-    @Param() { id }: MovieParamDto,
+    @Param() { id }: IdParamDto,
     @Body() { name, ageRestriction }: UpdateMovieDto,
   ) {
     return this.movieService.updateMovie({
@@ -47,36 +49,44 @@ export class MovieController {
     });
   }
   @Roles(UserRole.MANAGER)
-  @ApiParam({ type: MovieParamDto, name: "id" })
-  @Delete(":id")
-  async deleteMovie(@Param() { id }: MovieParamDto) {
+  @ApiParam({ type: IdParamDto, name: "id" })
+  @Delete("delete/:id")
+  async deleteMovie(@Param() { id }: IdParamDto) {
     return this.movieService.deleteMovie(Number(id));
   }
 
-  //TODO pagination
   @Get("all")
-  @Roles(UserRole.MANAGER)
-  async listMovies() {
-    return this.movieService.listMovies();
+  async listMovies(
+    @Query("sortBy") sortBy: keyof IMovie, // 'name', 'createdAt'
+    @Query("order") order: "asc" | "desc", // 'asc', 'desc'
+    @Query("page") page: string,
+    @Query("limit") limit: string,
+  ) {
+    return this.movieService.listMovies({
+      sortBy,
+      order,
+      page: Number(page),
+      limit: Number(limit),
+    });
   }
 
   @Roles(UserRole.MANAGER)
-  @ApiParam({ type: MovieParamDto, name: "id" })
+  @ApiParam({ type: IdParamDto, name: "id" })
   @ApiBody({ type: BulkSessionDto })
   @Post(":id/sessions")
   async addSessions(
-    @Param() { id }: MovieParamDto,
+    @Param() { id }: IdParamDto,
     @Body() { sessions }: BulkSessionDto,
   ) {
     return this.sessionService.addBulkSessions(Number(id), sessions);
   }
 
   @Roles(UserRole.MANAGER)
-  @ApiParam({ type: MovieParamDto, name: "id" })
+  @ApiParam({ type: IdParamDto, name: "id" })
   @ApiBody({ type: SessionDto })
-  @Patch("sessions/:id")
+  @Patch("session/:id")
   async updateSession(
-    @Param() { id }: MovieParamDto,
+    @Param() { id }: IdParamDto,
     @Body() { date, timeSlot, roomNumber }: SessionDto,
   ) {
     return this.sessionService.updateSession(Number(id), {
