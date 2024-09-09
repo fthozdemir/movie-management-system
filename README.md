@@ -32,6 +32,13 @@
 
 ### Docker
 
+Set up environment variables by creating a production `.env` file in the root directory.
+set the DATABASE_URL according to `.env` docker-compose.yml _use db:3306 instead of localhost:3306_ for docker-compose
+
+```bash
+docker-compose up --build
+```
+
 ### Steps
 
 1. Install the dependencies:
